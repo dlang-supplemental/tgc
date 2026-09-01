@@ -4,7 +4,9 @@ Opt-in **thread-local garbage collector** for D (`tgc`). Each attached thread ow
 
 Informal name: realtime GC. Registered runtime name: `tgc`.
 
-Part of link:https://github.com/dlang-supplemental[dlang-supplemental]. Design write-up: link:https://dlang-supplemental.github.io/docs/docs/blog/thread-local-gc-tgc.html[Thread-local GC (tgc) for D]. GitHub renders link:README.md[README.md]; this file is the AsciiDoc source.
+**DUB:** link:https://code.dlang.org/packages/tgc[tgc] · **Repo:** link:https://github.com/dlang-supplemental/tgc[dlang-supplemental/tgc]
+
+Part of link:https://github.com/dlang-supplemental[dlang-supplemental]. Design write-up: link:https://dlang-supplemental.github.io/docs/docs/blog/thread-local-gc-tgc.html[Thread-local GC (tgc) for D].
 
 == Install
 
@@ -32,6 +34,7 @@ extern(C) __gshared rt_options = ["gcopt=gc:tgc"];
 
 * DMD 2.112+ or LDC with pluggable GC + `registerGCFactory` thread init hook (same era as SymGC integration).
 * Prefer message passing / ownership transfer across threads; unrestricted shared mutable GC pointers are unsupported in v1.
+* Upstream prototype: link:https://github.com/dlang/dmd/pull/23514[dlang/dmd#23514]
 
 == Changelog
 
