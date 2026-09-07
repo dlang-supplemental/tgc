@@ -1,0 +1,14 @@
+step {
+    id "05-remote-free"
+    title "Remote free list"
+    build "unknown"
+    role "pedagogical"
+    evolves_from "04-thread-local"
+    lesson """
+    Thread B must not unlink Thread A's list without coordination. When free()
+    sees a foreign owner, push the pointer onto the owner's remote queue under a
+    lock; the owner drains that queue on alloc/collect/minimize. Prefer copy or
+    immutable message passing for shared data in v1.
+    """
+    aspect "remote-free-list"
+}

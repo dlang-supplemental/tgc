@@ -1,0 +1,93 @@
+= Pathogenesis sidecar schema (v0)
+:description: Userspace contract for evolutionary walks and composition graphs beside a git tree.
+
+This is the thin userspace slice between the working tree and git.
+Copy the folder layout into any repo; no special URL schemes required.
+
+Canonical design essay:
+link:https://connectome-fs.github.io/connectome-fs/manual/connectome-fs/0.1/explanation/pathogenesis-and-composition.html[connectome-fs: Pathogenesis and composition]
+(page may lag publish until the next docs build).
+
+== Layout
+
+----
+pathogenesis/
+  SCHEMA.adoc          // this file (optional to copy)
+  manifest.sdl         // walk metadata + ordered steps
+  steps/
+    NN-slug/
+      step.sdl         // lesson metadata
+      tree/            // optional synthetic sources for this step
+composition/
+  aspects.sdl          // aspect graph for the finished system
+----
+
+== `manifest.sdl`
+
+[source,sdl]
+----
+pathogenesis {
+    id "org.example.project.walk"
+    title "Short title"
+    kind "pedagogical-reconstruction"  // or "recorded-provenance"
+    entry "01-naive"
+    note "One paragraph for newcomers."
+
+    step "01-naive"
+    step "02-next"
+}
+----
+
+== `step.sdl`
+
+[source,sdl]
+----
+step {
+    id "01-naive"
+    title "Naive bump allocator"
+    build "ok"           // ok | fail | unknown
+    role "pedagogical"   // working | broken-intentional | pedagogical
+    lesson """
+    What the learner should notice at this step.
+    """
+    aspect "bump-alloc"  // links into composition/aspects.sdl
+    // optional: git_commit "abcdef…" when a real commit matches
+    // optional: evolves_from "00-prior"
+}
+----
+
+Synthetic sources for the step live under `tree/` (any relative paths).
+If omitted, the step is notes-only and may `anchor` into the live tree via composition.
+
+== `composition/aspects.sdl`
+
+[source,sdl]
+----
+composition {
+    aspect "bump-alloc" {
+        title "Bump / threshold allocation"
+        note "Grows until a collect threshold."
+        anchors "source/…/file.d#alloc"
+        introduced_in "01-naive"
+    }
+    aspect "mark-sweep" {
+        title "Mark and sweep"
+        depends_on "bump-alloc"
+        introduced_in "02-mark"
+    }
+}
+----
+
+== Association vocabulary
+
+Use these names in sidecars and, later, as connectome edge types:
+
+* `evolves-from` — previous step in a walk
+* `lesson-of` — prose/lesson attached to a step or node
+* `aspect-of` — compositional facet of a finished system
+* `extracted-to` — lineage continues in another GUID/repo after a split
+* `anchors` — pointer into current source (path + optional symbol/line)
+
+Identity for durable cross-repo links is a GUID (or MUID locally).
+Content snapshots use git OID or any content hash.
+Do not invent pedagogy-specific URL schemes.

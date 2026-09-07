@@ -1,0 +1,13 @@
+step {
+    id "02-mark-roots"
+    title "Mark from roots"
+    build "unknown"
+    role "pedagogical"
+    evolves_from "01-malloc-list"
+    lesson """
+    Blind free-all is wrong: live objects must survive. Before reclaiming,
+    clear marks, then conservatively scan roots (here: a fake stack range) and
+    set marked on reachable blocks. Still one heap; sweep comes next.
+    """
+    aspect "conservative-mark"
+}

@@ -1,0 +1,13 @@
+step {
+    id "04-thread-local"
+    title "Thread-local arenas"
+    build "unknown"
+    role "pedagogical"
+    evolves_from "03-sweep"
+    lesson """
+    Stop-the-world across threads fights latency. Give each attached thread its
+    own Heap in TLS. Collection scans that thread's stack/TLS only — siblings
+    keep running. Cross-thread pointer sharing is the next problem.
+    """
+    aspect "thread-local-arena"
+}

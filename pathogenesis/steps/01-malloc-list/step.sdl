@@ -1,0 +1,16 @@
+step {
+    id "01-malloc-list"
+    title "Malloc list + threshold"
+    build "unknown"
+    role "pedagogical"
+    evolves_from ""
+    lesson """
+    Start with the smallest honest GC sketch: every allocation gets a header and
+    joins an intrusive list. Grow until usedBytes crosses a threshold, then
+    free everything (or everything unmarked — next steps refine that). No threads
+    yet; one global heap is enough to see the data structure.
+    """
+    aspect "block-header"
+    aspect "intrusive-list-heap"
+    aspect "threshold-collect"
+}

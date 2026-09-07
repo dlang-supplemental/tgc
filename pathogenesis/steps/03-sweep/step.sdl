@@ -1,0 +1,13 @@
+step {
+    id "03-sweep"
+    title "Sweep unmarked"
+    build "unknown"
+    role "pedagogical"
+    evolves_from "02-mark-roots"
+    lesson """
+    After marking, walk the intrusive list and free headers that stayed unmarked.
+    This is classic mark-sweep on one heap. Finalizers and NO_SCAN attrs appear
+    in the real ThreadGC; keep them out of the sketch.
+    """
+    aspect "sweep"
+}

@@ -1,0 +1,18 @@
+step {
+    id "06-gc-interface"
+    title "Wire into druntime GC"
+    build "ok"
+    role "pedagogical"
+    evolves_from "05-remote-free"
+    lesson """
+    The production file implements core.gc.gcinterface.GC as ThreadGC: malloc,
+    free, roots/ranges, thread init/cleanup, and registerGCFactory(\"tgc\").
+    Read source/core/internal/gc/impl/tgc/gc.d with the composition aspects as a
+    map — you already met each piece in earlier steps.
+    """
+    aspect "runtime-gc-iface"
+    aspect "conservative-mark"
+    aspect "sweep"
+    aspect "thread-local-arena"
+    aspect "remote-free-list"
+}

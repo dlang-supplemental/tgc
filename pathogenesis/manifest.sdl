@@ -1,0 +1,18 @@
+pathogenesis {
+    id "org.dlang-supplemental.tgc.walk"
+    title "Thread-local GC — reconstructed growth"
+    kind "pedagogical-reconstruction"
+    entry "01-malloc-list"
+    note """
+    tgc was largely one-shotted into its current shape. This walk is a teaching
+    reconstruction: a simpler human-paced path from a naive allocator to the
+    ideas in today's ThreadGC — not a claim about literal git history.
+    """
+
+    step "01-malloc-list"
+    step "02-mark-roots"
+    step "03-sweep"
+    step "04-thread-local"
+    step "05-remote-free"
+    step "06-gc-interface"
+}

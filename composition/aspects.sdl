@@ -1,0 +1,67 @@
+composition {
+    aspect "block-header" {
+        title "Per-block header"
+        note "Size, attrs, mark bit, intrusive list links, owning heap pointer."
+        anchors "source/core/internal/gc/impl/tgc/gc.d#BlkHeader"
+        introduced_in "01-malloc-list"
+    }
+
+    aspect "intrusive-list-heap" {
+        title "Intrusive free/live list"
+        note "Heap owns a doubly-linked list of BlkHeader nodes."
+        depends_on "block-header"
+        anchors "source/core/internal/gc/impl/tgc/gc.d#ThreadHeap"
+        introduced_in "01-malloc-list"
+    }
+
+    aspect "threshold-collect" {
+        title "Collect threshold"
+        note "Allocation triggers collect when usedBytes crosses a threshold."
+        depends_on "intrusive-list-heap"
+        anchors "source/core/internal/gc/impl/tgc/gc.d#alloc"
+        introduced_in "01-malloc-list"
+    }
+
+    aspect "conservative-mark" {
+        title "Conservative mark from roots"
+        note "Scan stack, TLS, explicit roots/ranges; fixpoint over marked blocks."
+        depends_on "block-header"
+        anchors "source/core/internal/gc/impl/tgc/gc.d#collectHeap"
+        introduced_in "02-mark-roots"
+    }
+
+    aspect "sweep" {
+        title "Sweep unmarked"
+        note "Unlink and free blocks that were not marked; run finalizers when required."
+        depends_on "conservative-mark"
+        anchors "source/core/internal/gc/impl/tgc/gc.d#collectHeap"
+        introduced_in "03-sweep"
+    }
+
+    aspect "thread-local-arena" {
+        title "Thread-local heap arena"
+        note "Each attached thread owns a private ThreadHeap via TLS; no STW of siblings."
+        depends_on "intrusive-list-heap"
+        anchors "source/core/internal/gc/impl/tgc/gc.d#tlsHeap"
+        introduced_in "04-thread-local"
+    }
+
+    aspect "remote-free-list" {
+        title "Remote free / ownership transfer"
+        note "Foreign thread queues pointers for the owner heap under a spinlock."
+        depends_on "thread-local-arena"
+        anchors "source/core/internal/gc/impl/tgc/gc.d#pushRemote"
+        introduced_in "05-remote-free"
+    }
+
+    aspect "runtime-gc-iface" {
+        title "druntime GC interface"
+        note "ThreadGC implements core.gc.gcinterface.GC; factory registers as \"tgc\"."
+        depends_on "thread-local-arena"
+        depends_on "conservative-mark"
+        depends_on "sweep"
+        depends_on "remote-free-list"
+        anchors "source/core/internal/gc/impl/tgc/gc.d#ThreadGC"
+        introduced_in "06-gc-interface"
+    }
+}

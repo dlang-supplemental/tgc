@@ -1,5 +1,10 @@
 = changelog
 
+== 2026-09-07 - Pathogenesis onboarding walk
+
+* Add reconstructed teaching walk under `pathogenesis/` (six steps from malloc-list to GC interface) and `composition/aspects.sdl`.
+* Document userspace sidecar schema in `pathogenesis/SCHEMA.adoc`; README "Learn the code" points newcomers there before `gc.d`.
+
 == 2026-08-22 - Initial DUB release
 
 * Publish `tgc` as a DUB library vendoring `core.internal.gc.impl.tgc.gc` from the dlang-supplemental DMD fork (`feature/tgc`).

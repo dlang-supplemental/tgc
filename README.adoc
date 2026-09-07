@@ -36,6 +36,20 @@ extern(C) __gshared rt_options = ["gcopt=gc:tgc"];
 * Prefer message passing / ownership transfer across threads; unrestricted shared mutable GC pointers are unsupported in v1.
 * Upstream prototype: link:https://github.com/dlang/dmd/pull/23514[dlang/dmd#23514]
 
+== Learn the code
+
+The live implementation is dense.
+Rather than start in link:source/core/internal/gc/impl/tgc/gc.d[`gc.d`], follow a **reconstructed** teaching walk (not literal git history):
+
+. link:pathogenesis/manifest.sdl[`pathogenesis/manifest.sdl`] — ordered steps
+. link:pathogenesis/steps/[`pathogenesis/steps/`] — naive sketches + lesson notes
+. link:composition/aspects.sdl[`composition/aspects.sdl`] — finished-system aspect map
+. Schema: link:pathogenesis/SCHEMA.adoc[`pathogenesis/SCHEMA.adoc`]
+
+Design background:
+link:https://connectome-fs.github.io/connectome-fs/manual/connectome-fs/0.1/explanation/pathogenesis-and-composition.html[Pathogenesis and composition]
+(connectome-fs).
+
 == Changelog
 
 See link:CHANGELOG.adoc[CHANGELOG.adoc].
