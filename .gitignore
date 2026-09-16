@@ -1,5 +1,7 @@
 __dub/
 tgc-test-*
+/tgc
+/tgc-responsiveness-demo
 *.exe
 *.pdb
 *.obj

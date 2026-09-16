@@ -26,6 +26,7 @@ configuration "unittest-rtflag" {
 
 configuration "responsiveness-demo" {
     targetType "executable"
+    targetName "tgc-responsiveness-demo"
     mainSourceFile "examples/responsiveness/main.d"
     sourcePaths "source"
     versions "Tgc_default"
@@ -33,6 +34,7 @@ configuration "responsiveness-demo" {
 
 configuration "responsiveness-demo-rtflag" {
     targetType "executable"
+    targetName "tgc-responsiveness-demo"
     mainSourceFile "examples/responsiveness/main.d"
     sourcePaths "source"
 }
