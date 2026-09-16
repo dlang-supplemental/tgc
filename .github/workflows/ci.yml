@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: dub test (${{ matrix.compiler }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - ldc-latest
+          - dmd-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+
+      - name: Unit tests (Tgc_default)
+        run: dub test -- -v
+
+      - name: Unit tests (--DRT-gcopt=gc:tgc)
+        run: dub test --config=unittest-rtflag -- --DRT-gcopt=gc:tgc -v
+
+  responsiveness-demo:
+    name: responsiveness demo (${{ matrix.compiler }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - ldc-latest
+          - dmd-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+
+      - name: Run responsiveness demo (Tgc_default)
+        run: dub run --config=responsiveness-demo --build=release
+
+      - name: Run responsiveness demo (runtime flag)
+        run: dub run --config=responsiveness-demo-rtflag --build=release -- --DRT-gcopt=gc:tgc

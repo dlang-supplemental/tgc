@@ -1,4 +1,5 @@
 __dub/
+tgc-test-*
 *.exe
 *.pdb
 *.obj
