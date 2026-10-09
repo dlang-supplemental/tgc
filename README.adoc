@@ -23,12 +23,52 @@ Import the hook module so the factory is linked, then select the collector:
 ----
 import tgc.gcobj;
 
-// Option A — runtime flag
+// Option A — runtime flag (no Tgc_default version)
 // ./app --DRT-gcopt=gc:tgc
 
-// Option B — default at link time (add versions "Tgc_default" to your dub config)
+// Option B — default at link time (add versions "Tgc_default" to your dub config,
+// or depend on tgc and use the version in your dub.sdl)
+// gcobj embeds rt_options when Tgc_default is defined:
 extern(C) __gshared rt_options = ["gcopt=gc:tgc"];
 ----
+
+|===
+| Approach | DUB | Run
+
+| Link-time default
+| `versions "Tgc_default"` in your app or use config `unittest` / `responsiveness-demo`
+| `./your-app` (no extra flags)
+
+| Runtime flag
+| No `Tgc_default`; still `import tgc.gcobj;`
+| `./your-app --DRT-gcopt=gc:tgc`
+|===
+
+== Test and responsiveness check
+
+[source,powershell]
+----
+dub test
+----
+
+Runs smoke (`test/tgc_smoke.d`) and responsiveness (`test/tgc_responsiveness.d`) unittests with `Tgc_default`.
+
+Runtime-flag selection (same tests, no `Tgc_default`):
+
+[source,powershell]
+----
+dub test --config=unittest-rtflag -- --DRT-gcopt=gc:tgc
+----
+
+Standalone demo (prints PASS/FAIL and worst main-thread tick stall):
+
+[source,powershell]
+----
+dub run --config=responsiveness-demo
+dub run --config=responsiveness-demo-rtflag -- --DRT-gcopt=gc:tgc
+----
+
+**Responsiveness metric:** while a worker thread allocates and calls `GC.collect()` on its own heap, the main thread sleeps 1 ms per tick and records the worst tick duration. Pass when worst stall `< 250 ms` and the main thread completes at least 50 ticks (see `test/tgc_responsiveness.d`). Default stop-the-world GC typically fails this under the same load.
 
 == Requirements
 
