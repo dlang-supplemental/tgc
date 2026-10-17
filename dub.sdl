@@ -3,7 +3,7 @@ description "Opt-in thread-local garbage collector for D - per-thread heaps with
 authors "amdphreak"
 copyright "Copyright (c) 2026, dlang-supplemental contributors"
 license "BSL-1.0"
-version "0.1.1"
+version "0.1.2"
 
 importPaths "source"
 
@@ -17,4 +17,24 @@ configuration "unittest" {
     targetType "library"
     sourcePaths "source" "test"
     versions "Tgc_default"
+}
+
+configuration "unittest-rtflag" {
+    targetType "library"
+    sourcePaths "source" "test"
+}
+
+configuration "responsiveness-demo" {
+    targetType "executable"
+    targetName "tgc-responsiveness-demo"
+    mainSourceFile "examples/responsiveness/main.d"
+    sourcePaths "source"
+    versions "Tgc_default"
+}
+
+configuration "responsiveness-demo-rtflag" {
+    targetType "executable"
+    targetName "tgc-responsiveness-demo"
+    mainSourceFile "examples/responsiveness/main.d"
+    sourcePaths "source"
 }

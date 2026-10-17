@@ -1,5 +1,11 @@
 = changelog
 
+== 2026-09-16 - CI and responsiveness harness
+
+* Add GitHub Actions workflow `.github/workflows/ci.yml` (`dub test` on DMD + LDC, responsiveness demo).
+* Add `test/tgc_responsiveness.d` and `examples/responsiveness/main.d` (main-thread tick stall under worker GC stress).
+* DUB configs `unittest-rtflag`, `responsiveness-demo`, `responsiveness-demo-rtflag`; document test/demo commands in README.
+
 == 2026-09-07 - Pathogenesis onboarding walk
 
 * Add reconstructed teaching walk under `pathogenesis/` (six steps from malloc-list to GC interface) and `composition/aspects.sdl`.
