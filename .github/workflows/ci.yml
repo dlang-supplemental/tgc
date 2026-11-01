@@ -16,7 +16,7 @@ jobs:
           - ldc-latest
           - dmd-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: dlang-community/setup-dlang@v2
         with:
@@ -38,7 +38,7 @@ jobs:
           - ldc-latest
           - dmd-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: dlang-community/setup-dlang@v2
         with:
